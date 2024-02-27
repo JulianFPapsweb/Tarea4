@@ -1,42 +1,47 @@
-package cuentas;
+package ccuenta;
 
 public class CCuenta {
 
+	private double saldo = 0;
+	private int contadorActualitzacionsSaldo = 0;
 
-    private String nombre;
-    private String cuenta;
-    private double saldo;
-    private double tipoInterés;
+	public CCuenta() {
+	}
 
-    public CCuenta()
-    {
-    }
+	public double obtenirSaldo() {
+		return saldo; 
+	}
 
-    public CCuenta(String nom, String cue, double sal, double tipo)
-    {
-        nombre =nom;
-        cuenta=cue;
-        saldo=sal;
-    }
+	public int ingressar(double quantitat) {
+		int ingressarCodiError;
+		if (quantitat < 0) {
+			System.out.println("No es pot ingressar una quantitat inferior a 0");
+			ingressarCodiError = 1;
+		} else {
+			if (quantitat == -3) {
+				System.out.println("Error detectable en proves de caixa blanca");
+				ingressarCodiError = 2;
+			} else {
+				// Depuració. Punt d'aturada només al 3r ingrés.
+				saldo = saldo + quantitat;
+				contadorActualitzacionsSaldo ++;
+				ingressarCodiError = 0;
+			} 
+		}
+		// Depuració. Punt d'aturada quan la quantitat és menor que 0
+		return ingressarCodiError;
+	}
 
-    public double estado()
-    {
-        return saldo;
-    }
+	public void retirar(double quantitat) {
+		if (quantitat <= 0) {
+			System.out.println("No es pot retirar una quantitat menor que 0");
+		} else {
+			if (saldo < quantitat) {
+				System.out.println("No hi ha suficient saldo");
+			} else {
+				saldo = saldo - quantitat;
+			}
+		}
+	}
 
-    public void ingresar(double cantidad) throws Exception
-    {
-        if (cantidad<0)
-            throw new Exception("No se puede ingresar una cantidad negativa");
-        saldo = saldo + cantidad;
-    }
-
-    public void retirar(double cantidad) throws Exception
-    {
-        if (cantidad <= 0)
-            throw new Exception ("No se puede retirar una cantidad negativa");
-        if (estado()< cantidad)
-            throw new Exception ("No se hay suficiente saldo");
-        saldo = saldo - cantidad;
-    }
 }
